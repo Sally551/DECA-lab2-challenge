@@ -51,7 +51,9 @@ where n is the number of clock cycle.
 If ADDIN from MULT B sheet is one, we subtract the previous result we calculated from the shift operation block. Otherwise, we use the register to accumulate the eight(OPCODE multiplied by NUMB) indices. This ADDSUB module gives out the final result at the clock cycle 7. Therefore, the whole module takes 8 cycles to calculate the result.
 
 ### Writing back through MOVC1
+using "a.ram" to test
 <img width="560" height="282" alt="image" src="https://github.com/user-attachments/assets/afb86f14-de56-4409-9966-2ad1c36ee6c5" />
+
 We used MOVC1 instruction to do the operation R0 := R0 \times R1. Therefore, we need an EN at clock cycle 3(in the example) to let the counter in the MULT sheet to start counting from 0 and start run the multiplication. By repeating the command 8 times, the calculated answer is at R0.
 <img width="920" height="275" alt="image" src="https://github.com/user-attachments/assets/8f3e9ac7-e12e-4658-8f4d-8e1af7dd7a73" />
 
