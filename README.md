@@ -18,7 +18,6 @@ $$
 \times \text{NUMB}
 $$
 
-<img width="782" height="34" alt="image" src="https://github.com/user-attachments/assets/ec711cd7-d1da-45bb-bd6f-5ed681b2df55" />
 
 
 The algorithm we used is radix4 multiplication. NUMA is split into 8 indices, starting from (1:-1) to (15:13), which is turned into 8 opcodes from cycle 0 to cycle 7. The opcode is calculated through Radix4 sheet, and it is a three bit signed number.
