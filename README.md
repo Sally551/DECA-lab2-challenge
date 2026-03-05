@@ -2,12 +2,9 @@
 This is a ISSIE solution to 16bits multiplied by 16bits multiplier within 64 full adders. It can be runned within 8 clock cycles and it is an extra sheet inserted to lab 2 EEP1 design.
 
 ### MULT sheet
-A very important part is the clock cycle. From cycle 0, the NUMA and NUMB are loaded into the registers for later uses. After this, the NUMA is proceeded from LSB to the MSB from cycle 0 to 7, every 3 digits. Moreover, the content in the register at cycle 7 is cleared and the output is written to the register files. 
+A very important part is the clock cycle. From cycle 0, the NUMA and NUMB are loaded into the registers for later uses. After this, the NUMA is proceeded from LSB to the MSB from cycle 0 to 7, every 3 digits. Moreover, the register must be reset to avoid previous result influencing the new calculation.
 
-<img width="824" height="514" alt="image" src="https://github.com/user-attachments/assets/4db86cd0-1777-438d-bc71-4cec24dbffef" />
-
-A simulated result:
-<img width="944" height="267" alt="image" src="https://github.com/user-attachments/assets/4635a637-cff4-4deb-8589-c433d7f81af2" />
+<img width="811" height="512" alt="image" src="https://github.com/user-attachments/assets/158cd6aa-4081-492f-91cd-6f88ddeb3e6b" />
 
 
 
@@ -46,16 +43,18 @@ where n is the number of clock cycle.
 
 **32-bit ADDSUB**
 
-<img width="365" height="355" alt="image" src="https://github.com/user-attachments/assets/54d829e6-b51d-4504-a720-669339ca6758" />
+<img width="397" height="377" alt="image" src="https://github.com/user-attachments/assets/19a23faf-b9ea-4441-b8fb-b5f71dbf5ac2" />
 
-If ADDIN from MULT B sheet is one, we subtract the previous result we calculated from the shift operation block. Otherwise, we use the register to accumulate the eight(OPCODE multiplied by NUMB) indices. This ADDSUB module gives out the final result at the clock cycle 7. Therefore, the whole module takes 8 cycles to calculate the result.
+
+If ADDIN from MULT B sheet is one, we subtract the previous result we calculated from the shift operation block. Otherwise, we use the register to accumulate the eight(OPCODE multiplied by NUMB) indices. At clock cycle 0, 0 is loaded to A(reset the accumulation). This ADDSUB module gives out the final result at the clock cycle 7. Therefore, the whole module takes 8 cycles to calculate the result.
 
 ### Writing back through MOVC1
 using "a.ram" to test
 <img width="560" height="282" alt="image" src="https://github.com/user-attachments/assets/afb86f14-de56-4409-9966-2ad1c36ee6c5" />
 
 We used MOVC1 instruction to do the operation R0 := R0 \times R1. Therefore, we need an EN at clock cycle 3(in the example) to let the counter in the MULT sheet to start counting from 0 and start run the multiplication. By repeating the command 8 times, the calculated answer is at R0.
-<img width="920" height="275" alt="image" src="https://github.com/user-attachments/assets/8f3e9ac7-e12e-4658-8f4d-8e1af7dd7a73" />
+<img width="943" height="235" alt="image" src="https://github.com/user-attachments/assets/c72d743a-8031-4773-8f71-a28f4f7a893c" />
+
 
 **ALU sheet**
 <img width="972" height="155" alt="image" src="https://github.com/user-attachments/assets/0fc24478-534a-4dae-8605-41043d181b6d" />
