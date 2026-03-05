@@ -10,6 +10,14 @@ A very important part is the clock cycle. From cycle 0, the NUMA and NUMB are lo
 
 ### Algorithm
 
+$$
+\text{NUMA} \times \text{NUMB} =
+\left(\text{opcode}(15\:13)\cdot 2^{14} +
+\text{opcode}(13\:11)\cdot 2^{12} + \cdots +
+\text{opcode}(1\:-1)\cdot 2^{0}\right)
+\times \text{NUMB}
+$$
+
 <img width="782" height="34" alt="image" src="https://github.com/user-attachments/assets/ec711cd7-d1da-45bb-bd6f-5ed681b2df55" />
 
 
