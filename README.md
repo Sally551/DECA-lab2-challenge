@@ -77,3 +77,26 @@ Then how to link it to the defined instruction MOVC1? The only difference betwee
 
 <img width="781" height="601" alt="image" src="https://github.com/user-attachments/assets/cffb48ee-1027-4c08-812c-ec79ca18504d" />
 
+## Integrating with IEEE754
+We didn't use the MULT sheet inside of IEEEMULT because of the registers which store NUMA and NUMB, and also the clock SEL signal.
+<img width="1077" height="610" alt="image" src="https://github.com/user-attachments/assets/be75f627-0149-4a8e-b225-1d94f15a8192" />
+The IEEE754 number is consist of S(15)EEEEE(14:10)FFFFFFFFFF(9:0), and the real exponent is (14:10)-15.
+Therefore, when we multiply two numbers, S is S1 XOR S2, exponent is E1+E2+OVERFLOW-15.
+For the fraction part, we first add a 1 to the front, and then multiply two 11-digit numbers. If the result is 22 digits, we add OVERFLOW=1 into the exponent, and take (20:11) of the multiplied result. Otherwise, the result will be a 21 digits number, and we should take(19:10) because the first digit of either result is the should-be-ommitted 1. We used the 21th digit and MUX4 to decide which result we should take and merge it with sign and exponent.
+<img width="875" height="390" alt="image" src="https://github.com/user-attachments/assets/d64f2b9e-bcef-4c0d-9f57-2af4ae3f5b70" />
+
+### Test with "ieee_test.ram"
+<img width="503" height="204" alt="image" src="https://github.com/user-attachments/assets/bcd52c89-41be-4cf4-885a-8c84efd7a38a" />
+<img width="599" height="214" alt="image" src="https://github.com/user-attachments/assets/3ed4cacb-2abc-4623-a238-85f65035d05a" />
+
+IEEE754 FP16 Multiplication Example
+
+Input
+A = 0 10001 1100000000
+B = 0 10010 1010000000
+<img width="746" height="409" alt="image" src="https://github.com/user-attachments/assets/a1af69ec-09be-478f-af09-f25eea9739f3" />
+Fraction (take first 10 bits)：0110110000
+Exponent = 17+18+1-15 = 21 =10101
+The number is:
+0 10101 0110110000 matches 0x55B0
+
