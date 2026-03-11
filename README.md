@@ -55,6 +55,9 @@ where n is the number of clock cycle.
 
 If ADDIN from MULT B sheet is one, we subtract the previous result we calculated from the shift operation block. Otherwise, we use the register to accumulate the eight(OPCODE multiplied by NUMB) indices. At clock cycle 0, 0 is loaded to A(reset the accumulation). This ADDSUB module gives out the final result at the clock cycle 7. Therefore, the whole module takes 8 cycles to calculate the result.
 
+### TEST instruction:
+If you want to test with the regular number, please replace IEEEMULT by a MULT sheet and select (15:0) as the output, and use "a.ram".
+Otherwise, you should use the given sheet. You need to test more sets of numbers for IEEEMULT because the author didn't try using 16-digit input numbers.
 ### Writing back through MOVC1
 using "a.ram" to test
 <img width="560" height="282" alt="image" src="https://github.com/user-attachments/assets/afb86f14-de56-4409-9966-2ad1c36ee6c5" />
@@ -67,5 +70,10 @@ We used MOVC1 instruction to do the operation R0 := R0 \times R1. Therefore, we 
 <img width="972" height="155" alt="image" src="https://github.com/user-attachments/assets/0fc24478-534a-4dae-8605-41043d181b6d" />
 
 Then how to link it to the defined instruction MOVC1? The only difference between MOV and MOVC1 is INS(4:2) is 1(field C) for MOVC1, and (4:2) is 0 for MOV if values are read from REGA and REGB, MOV uses IMMS8, then OP2SEL will be 1. Therefore, in order to let the value output be MOVC1 instead of MOV, we used MUX4 and let the logic be ~OP2SEL && (IMM(4:2) == 0b1) in order to write the output result of MULT sheet, and enables EN only at the first cycle of MULT, which is the same condition for MUX4 to write the MOVC1 value.
+*OP2SEL is 0 for MOVC1 because it can only be operated between registers. IMM(4:2) is 1 in MOVC1*
 <img width="644" height="538" alt="image" src="https://github.com/user-attachments/assets/7f763b58-d173-48fa-8170-86b4a270b085" />
+**IMPORTANT**
+**Change of the sheet: after failing to treat with EN, the output SEL and EN for the first cycle must be ANDed with (SEL == 0), otherwise, during other operations(ALUOPC = 1-7), the EN might be accidentally opened.**
+
+<img width="781" height="601" alt="image" src="https://github.com/user-attachments/assets/cffb48ee-1027-4c08-812c-ec79ca18504d" />
 
